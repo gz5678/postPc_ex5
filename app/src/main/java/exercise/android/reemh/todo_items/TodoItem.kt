@@ -4,5 +4,7 @@ import java.io.Serializable
 
 data class TodoItem(val description : String,
                     val timestampCreated : Long,
-                    val inProgress : Boolean) : Serializable { // TODO: edit this class as you want
+                    var status : Status) : Serializable
+{
+    enum class Status {IN_PROGRESS, DONE}
 }
