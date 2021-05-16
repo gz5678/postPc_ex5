@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     var holder: TodoItemsHolder? = null
@@ -16,8 +17,16 @@ class MainActivity : AppCompatActivity() {
         if (holder == null) {
             holder = TodoItemsHolderImpl()
         }
-        val addButton = findViewById<Button?>(R.id.buttonCreateTodoItem)
+        val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
+
+        // Set initial todos list
+        val adapter = TodoAdapter()
+        adapter.setTodos(holder!!.getCurrentItems())
+
+        val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
+        todoRecycler.adapter = adapter
+        todoRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         addButton.setOnClickListener { _: View? ->
             val taskTest = insertTaskTextField.text.toString()
             // If the task is not empty, add it to the todo list
@@ -25,21 +34,10 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             holder?.addNewInProgressItem(taskTest)
-
+            adapter.setTodos(holder!!.getCurrentItems())
             // Delete text in the text field so user can write new task
             insertTaskTextField.text = ""
         }
-
-        // We set the todos list in the adapter to the list in the holder.
-        // When the holder is updated, the todos is also supposed to be updated
-        // since they have a refernce to the same object.
-        val adapter = TodoAdapter()
-        adapter.setTodos(holder!!.getCurrentItems())
-
-        val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
-        todoRecycler.adapter = adapter
-        todoRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        
     }
 }
 
