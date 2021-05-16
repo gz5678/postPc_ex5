@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
 
+        // TODO: Load data into holder when flipping screen and such
+
         // Set initial todos list
         val adapter = TodoAdapter(holder)
 
