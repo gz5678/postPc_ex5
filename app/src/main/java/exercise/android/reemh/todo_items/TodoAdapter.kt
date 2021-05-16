@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,7 +15,10 @@ class TodoAdapter: RecyclerView.Adapter<TodoItemHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemHolder {
-        TODO("Not yet implemented")
+        val context = parent.context
+        val view = LayoutInflater.from(context)
+                .inflate(R.layout.row_todo_item, parent, false)
+        return TodoItemHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -22,6 +26,8 @@ class TodoAdapter: RecyclerView.Adapter<TodoItemHolder>() {
     }
 
     override fun onBindViewHolder(holder: TodoItemHolder, position: Int) {
-        TODO("Not yet implemented")
+        val todo = _todos[position]
+        holder.description.text = todo.description
+        holder.checkBox.isChecked = todo.status == TodoItem.Status.DONE
     }
 }
