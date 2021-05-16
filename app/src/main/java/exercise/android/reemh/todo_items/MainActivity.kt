@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     var holder: TodoItemsHolder? = null
@@ -27,8 +29,17 @@ class MainActivity : AppCompatActivity() {
             // Delete text in the text field so user can write new task
             insertTaskTextField.text = ""
         }
-        // TODO: implement the specs as defined below
-        //    (find all UI components, hook them up, connect everything you need)
+
+        // We set the todos list in the adapter to the list in the holder.
+        // When the holder is updated, the todos is also supposed to be updated
+        // since they have a refernce to the same object.
+        val adapter = TodoAdapter()
+        adapter.setTodos(holder!!.getCurrentItems())
+
+        val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
+        todoRecycler.adapter = adapter
+        todoRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        
     }
 }
 

@@ -8,7 +8,7 @@ class TodoAdapter: RecyclerView.Adapter<TodoItemHolder>() {
 
     private val _todos: MutableList<TodoItem> = ArrayList()
 
-    fun setTodos(todos: List<TodoItem>) {
+    fun setTodos(todos: MutableList<TodoItem>) {
         _todos.clear()
         _todos.addAll(todos)
         notifyDataSetChanged()
