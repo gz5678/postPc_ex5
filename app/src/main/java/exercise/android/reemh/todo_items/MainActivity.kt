@@ -10,19 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    var holder: TodoItemsHolder? = null
+    var holder: TodoItemsHolder = TodoItemsHolderImpl()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (holder == null) {
-            holder = TodoItemsHolderImpl()
-        }
         val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
 
         // Set initial todos list
-        val adapter = TodoAdapter()
-        adapter.setTodos(holder!!.getCurrentItems())
+        val adapter = TodoAdapter(holder)
 
         val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
         todoRecycler.adapter = adapter
@@ -33,8 +29,8 @@ class MainActivity : AppCompatActivity() {
             if (taskTest.isEmpty()) {
                 return@setOnClickListener
             }
-            holder?.addNewInProgressItem(taskTest)
-            adapter.setTodos(holder!!.getCurrentItems())
+            holder.addNewInProgressItem(taskTest)
+            adapter.notifyDataSetChanged()
             // Delete text in the text field so user can write new task
             insertTaskTextField.text = ""
         }

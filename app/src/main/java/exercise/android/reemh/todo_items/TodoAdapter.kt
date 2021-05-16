@@ -4,15 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TodoAdapter: RecyclerView.Adapter<TodoItemHolder>() {
-
-    private val _todos: MutableList<TodoItem> = ArrayList()
-
-    fun setTodos(todos: MutableList<TodoItem>) {
-        _todos.clear()
-        _todos.addAll(todos)
-        notifyDataSetChanged()
-    }
+class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapter<TodoItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemHolder {
         val context = parent.context
@@ -22,11 +14,11 @@ class TodoAdapter: RecyclerView.Adapter<TodoItemHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return _todos.size
+        return _todosHolder.getCurrentItems().size
     }
 
     override fun onBindViewHolder(holder: TodoItemHolder, position: Int) {
-        val todo = _todos[position]
+        val todo = _todosHolder.getCurrentItems()[position]
         holder.description.text = todo.description
         holder.checkBox.isChecked = todo.status == TodoItem.Status.DONE
     }
