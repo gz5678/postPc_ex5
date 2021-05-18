@@ -29,19 +29,15 @@ class TodoItemsHolderImpl : TodoItemsHolder {
     }
 
     override fun markItemDone(item: TodoItem?) {
-        todoItemArrayList.remove(item)
         item?.status = TodoItem.Status.DONE
-        if (item != null) {
-            todoItemArrayList.add(item)
-        }
     }
 
     override fun markItemInProgress(item: TodoItem?) {
-        todoItemArrayList.remove(item)
         item?.status = TodoItem.Status.IN_PROGRESS
-        if (item != null) {
-            todoItemArrayList.add(item)
-        }
     }
     override fun deleteItem(item: TodoItem?) {todoItemArrayList.remove(item)}
+
+    override fun sortList() {
+        todoItemArrayList.sort()
+    }
 }

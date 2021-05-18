@@ -21,15 +21,16 @@ class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapt
     override fun onBindViewHolder(holder: TodoItemHolder, position: Int) {
         val todo = _todosHolder.getCurrentItems()[position]
         holder.description.text = todo.description
+        holder.description.paintFlags = if (todo.status != TodoItem.Status.DONE) 0 else Paint.STRIKE_THRU_TEXT_FLAG
+        holder.checkBox.setOnCheckedChangeListener(null)
         holder.checkBox.isChecked = todo.status == TodoItem.Status.DONE
         holder.checkBox.setOnCheckedChangeListener{buttonView, isChecked ->
-            if (isChecked) {
-                holder.description.paintFlags = 0
-                _todosHolder.markItemInProgress(todo)
+            if (!isChecked) {
+                _todosHolder.markItemInProgress(_todosHolder.getCurrentItems()[ holder.adapterPosition ])
             } else {
-                holder.description.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                _todosHolder.markItemDone(todo)
+                _todosHolder.markItemDone(_todosHolder.getCurrentItems()[ holder.adapterPosition ])
             }
+            _todosHolder.sortList()
             notifyDataSetChanged()
         }
     }

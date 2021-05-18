@@ -19,4 +19,6 @@ interface TodoItemsHolder {
 
     /** delete the @param item  */
     fun deleteItem(item: TodoItem?)
+
+    fun sortList()
 }
