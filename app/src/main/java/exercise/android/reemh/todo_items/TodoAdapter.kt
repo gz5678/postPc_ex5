@@ -33,5 +33,11 @@ class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapt
             _todosHolder.sortList()
             notifyDataSetChanged()
         }
+        holder.itemView.isLongClickable = true
+        holder.itemView.setOnLongClickListener{
+            _todosHolder.getCurrentItems().removeAt(holder.adapterPosition)
+            notifyItemRemoved(holder.adapterPosition)
+            return@setOnLongClickListener true
+        }
     }
 }
