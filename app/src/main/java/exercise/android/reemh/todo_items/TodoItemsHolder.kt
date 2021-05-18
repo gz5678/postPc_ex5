@@ -21,4 +21,6 @@ interface TodoItemsHolder {
     fun deleteItem(item: TodoItem?)
 
     fun sortList()
+
+    fun setItems(items: MutableList<TodoItem>)
 }

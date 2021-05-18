@@ -1,6 +1,7 @@
 package exercise.android.reemh.todo_items
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -8,19 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     var holder: TodoItemsHolder = TodoItemsHolderImpl()
+    private val adapter = TodoAdapter(holder)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
-
-        // TODO: Load data into holder when flipping screen and such
-
-        // Set initial todos list
-        val adapter = TodoAdapter(holder)
 
         val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
         todoRecycler.adapter = adapter
@@ -36,6 +34,22 @@ class MainActivity : AppCompatActivity() {
             // Delete text in the text field so user can write new task
             insertTaskTextField.text = ""
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
+        outState.putString("todo_in_text_field", insertTaskTextField.text.toString())
+        outState.putSerializable("items", holder.getCurrentItems() as Serializable)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
+        insertTaskTextField.text = savedInstanceState.getString("todo_in_text_field")
+        val todos = savedInstanceState.getSerializable("items") as MutableList<TodoItem>
+        holder.setItems(todos)
+        adapter.notifyDataSetChanged()
     }
 }
 

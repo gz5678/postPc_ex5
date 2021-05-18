@@ -40,4 +40,11 @@ class TodoItemsHolderImpl : TodoItemsHolder {
     override fun sortList() {
         todoItemArrayList.sort()
     }
+
+    override fun setItems(items: MutableList<TodoItem>) {
+        todoItemArrayList.clear()
+        // Supposed to call add that was overriden
+        todoItemArrayList.addAll(items)
+        this.sortList()
+    }
 }
