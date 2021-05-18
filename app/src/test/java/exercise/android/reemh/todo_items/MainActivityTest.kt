@@ -18,8 +18,8 @@ import java.util.*
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
 class MainActivityTest : TestCase() {
-    private var activityController: ActivityController<MainActivity?>? = null
-    private var mockHolder: TodoItemsHolder? = null
+    private var activityController: ActivityController<MainActivity> = Robolectric.buildActivity(MainActivity::class.java)
+    private var mockHolder: TodoItemsHolder = Mockito.mock(TodoItemsHolder::class.java)
     @Before
     fun setup() {
         mockHolder = Mockito.mock(TodoItemsHolder::class.java)
@@ -79,10 +79,10 @@ class MainActivityTest : TestCase() {
 
         // verify
         val activityUnderTest = activityController.get()
-        val recyclerView = activityUnderTest.findViewById<RecyclerView?>(R.id.recyclerTodoItemsList)
+        val recyclerView = activityUnderTest.findViewById<RecyclerView>(R.id.recyclerTodoItemsList)
         val adapter = recyclerView.adapter
         assertNotNull(adapter)
-        assertEquals(0, adapter.getItemCount())
+        assertEquals(0, adapter?.itemCount)
     }
 
     @Test
@@ -90,11 +90,10 @@ class MainActivityTest : TestCase() {
         // setup
 
         // when asking the `mockHolder` to get the current items, return a list with 1 item of type "in progress"
-        val itemsReturnedByHolder = ArrayList<TodoItem?>()
+        val itemsReturnedByHolder = ArrayList<TodoItem>()
         Mockito.`when`(mockHolder.getCurrentItems())
                 .thenReturn(itemsReturnedByHolder)
-        val itemInProgress = TodoItem()
-        // TODO: customize `itemInProgress` to have type IN-PROGRESS and description "do homework"
+        val itemInProgress = TodoItem(description = "do homework", timestampCreated = System.currentTimeMillis(), status = TodoItem.Status.IN_PROGRESS)
         itemsReturnedByHolder.add(itemInProgress)
 
         // test - let the activity think it is being shown
@@ -107,10 +106,10 @@ class MainActivityTest : TestCase() {
         // 1. verify that adapter says there should be 1 item showing
         val adapter = recyclerView.adapter
         assertNotNull(adapter)
-        assertEquals(1, adapter.getItemCount())
+        assertEquals(1, adapter?.itemCount)
 
         // 2. verify that the shown view has a checkbox being not-checked and has a TextView showing the correct description
-        val viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView
+        val viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0)?.itemView
         // TODO: implement.
         //  use `viewInRecycler.findViewById(...)` to find the checkbox and the description subviews,
         //  and make sure the checkbox is not checked and the TextView shows the correct description
@@ -121,10 +120,10 @@ class MainActivityTest : TestCase() {
         // setup
 
         // when asking the `mockHolder` to get the current items, return a list with 1 item of type "DONE"
-        val itemsReturnedByHolder = ArrayList<TodoItem?>()
+        val itemsReturnedByHolder = ArrayList<TodoItem>()
         Mockito.`when`(mockHolder.getCurrentItems())
                 .thenReturn(itemsReturnedByHolder)
-        val itemDone = TodoItem()
+        val itemDone = TodoItem(description = "buy tomatoes", timestampCreated = System.currentTimeMillis(), status = TodoItem.Status.DONE)
         // TODO: customize `itemDone` to have type DONE and description "buy tomatoes"
         itemsReturnedByHolder.add(itemDone)
 
@@ -138,10 +137,10 @@ class MainActivityTest : TestCase() {
         // 1. verify that adapter says there should be 1 item showing
         val adapter = recyclerView.adapter
         assertNotNull(adapter)
-        assertEquals(1, adapter.getItemCount())
+        assertEquals(1, adapter?.itemCount)
 
         // 2. verify that the shown view has a checkbox being checked and has a TextView showing the correct description
-        val viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView
+        val viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0)?.itemView
         // TODO: implement.
         //  use `viewInRecycler.findViewById(...)` to find the checkbox and the description subviews,
         //  and make sure the checkbox is checked and the TextView shows the correct description
