@@ -163,8 +163,10 @@ public class MainActivityTest extends TestCase {
 
         // 2. verify that the shown view has a checkbox being checked and has a TextView showing the correct description
         View viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView;
-        // TODO: implement.
-        //  use `viewInRecycler.findViewById(...)` to find the checkbox and the description subviews,
-        //  and make sure the checkbox is checked and the TextView shows the correct description
+        CheckBox checkBox = viewInRecycler.findViewById(R.id.progressCheckBox);
+        TextView description = viewInRecycler.findViewById(R.id.description);
+
+        assertTrue(checkBox.isChecked());
+        assertEquals(description.getText().toString(), itemDone.getDescription());
     }
 }
