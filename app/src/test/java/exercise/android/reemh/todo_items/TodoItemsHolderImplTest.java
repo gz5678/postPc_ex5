@@ -75,14 +75,17 @@ public class TodoItemsHolderImplTest extends TestCase {
         holderUnderTest.addNewInProgressItem("do screaming");
         TodoItem item = holderUnderTest.getCurrentItems().get(1);
         holderUnderTest.markItemDone(item);
-        List<TodoItem> beforeSort = holderUnderTest.getCurrentItems();
-        holderUnderTest.sortList();
 
         // verify
-        for (int i = 0; i < holderUnderTest.getCurrentItems().size(); i++) {
-            assertEquals(beforeSort.get(i), holderUnderTest.getCurrentItems().get(i));
-        }
+        assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(0).getStatus());
+        assertEquals("do screaming", holderUnderTest.getCurrentItems().get(0).getDescription());
+        assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(1).getStatus());
+        assertEquals("do shopping", holderUnderTest.getCurrentItems().get(1).getDescription());
+        assertEquals(TodoItem.Status.DONE, holderUnderTest.getCurrentItems().get(2).getStatus());
+        assertEquals("do jumping", holderUnderTest.getCurrentItems().get(2).getDescription());
     }
+
+
 
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }

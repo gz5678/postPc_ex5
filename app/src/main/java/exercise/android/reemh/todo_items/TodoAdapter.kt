@@ -30,7 +30,6 @@ class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapt
             } else {
                 _todosHolder.markItemDone(_todosHolder.getCurrentItems()[ holder.adapterPosition ])
             }
-            _todosHolder.sortList()
             notifyDataSetChanged()
         }
         holder.itemView.isLongClickable = true

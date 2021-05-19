@@ -30,22 +30,20 @@ class TodoItemsHolderImpl : TodoItemsHolder {
 
     override fun markItemDone(item: TodoItem?) {
         item?.status = TodoItem.Status.DONE
+        todoItemArrayList.sort()
     }
 
     override fun markItemInProgress(item: TodoItem?) {
         item?.status = TodoItem.Status.IN_PROGRESS
+        todoItemArrayList.sort()
     }
 
     override fun deleteItem(item: TodoItem?) {todoItemArrayList.remove(item)}
-
-    override fun sortList() {
-        todoItemArrayList.sort()
-    }
 
     override fun setItems(items: MutableList<TodoItem>) {
         todoItemArrayList.clear()
         // Supposed to call add that was overriden
         todoItemArrayList.addAll(items)
-        this.sortList()
+        todoItemArrayList.sort()
     }
 }
