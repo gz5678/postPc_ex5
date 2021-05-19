@@ -1,6 +1,5 @@
 package exercise.android.reemh.todo_items
 
-// TODO: feel free to add/change/remove methods as you want
 interface TodoItemsHolder {
     /** Get a copy of the current items list  */
     fun getCurrentItems(): MutableList<TodoItem>
