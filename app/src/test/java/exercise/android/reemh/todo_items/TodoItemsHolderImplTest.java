@@ -198,5 +198,19 @@ public class TodoItemsHolderImplTest {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
-    // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
+    @Test
+    public void when_addingSameItemTwice_and_anotherItem_then_listShouldAllInstances(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        holderUnderTest.addNewInProgressItem("do shopping");
+        holderUnderTest.addNewInProgressItem("do something else");
+
+        // verify
+        assertEquals(3, holderUnderTest.getCurrentItems().size());
+
+    }
 }
