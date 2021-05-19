@@ -120,5 +120,33 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals("buy chili", holderUnderTest.getCurrentItems().get(2).getDescription());
     }
 
+    public void test_when_settingEmptyItemsList_then_listShouldBeEmpty(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+        ArrayList<TodoItem> newItems = new ArrayList<>();
+
+        // test
+        holderUnderTest.setItems(newItems);
+
+        // verify
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+    }
+
+    public void test_when_addingSameItemTwice_then_listShouldHaveBothInstances(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        holderUnderTest.addNewInProgressItem("do shopping");
+
+        // verify
+        assertEquals(2, holderUnderTest.getCurrentItems().size());
+    }
+
+
+
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }

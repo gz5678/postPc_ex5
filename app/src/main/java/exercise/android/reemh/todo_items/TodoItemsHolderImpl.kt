@@ -42,7 +42,6 @@ class TodoItemsHolderImpl : TodoItemsHolder {
 
     override fun setItems(items: MutableList<TodoItem>) {
         todoItemArrayList.clear()
-        // Supposed to call add that was overriden
         todoItemArrayList.addAll(items)
         todoItemArrayList.sort()
     }
