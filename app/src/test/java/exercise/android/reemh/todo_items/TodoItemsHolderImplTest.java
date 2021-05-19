@@ -160,5 +160,34 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
+    public void test_when_deletingNull_then_doNothing(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        holderUnderTest.deleteItem(null);
+
+        // verify
+        assertEquals(1, holderUnderTest.getCurrentItems().size());
+    }
+
+    public void test_when_markingNull_then_doNothing(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        holderUnderTest.markItemInProgress(null);
+        holderUnderTest.markItemDone(null);
+
+        // verify
+        assertEquals(1, holderUnderTest.getCurrentItems().size());
+    }
+
+    
+
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }
