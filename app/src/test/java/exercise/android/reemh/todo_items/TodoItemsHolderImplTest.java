@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.jvm.internal.markers.KMutableList;
@@ -85,7 +86,39 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals("do jumping", holderUnderTest.getCurrentItems().get(2).getDescription());
     }
 
+    public void test_when_onlyAddingNewItem_then_newItemShouldBeInProgress(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
 
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+
+        // verify
+        assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(0).getStatus());
+    }
+
+    public void test_when_settingItems_then_listShouldHaveItemsAndSorted(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+        ArrayList<TodoItem> newItems = new ArrayList<>();
+
+        // test
+        newItems.add(new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS));
+        newItems.add(new TodoItem("buy chili", System.currentTimeMillis(), TodoItem.Status.DONE));
+        newItems.add(new TodoItem("buy hummus", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS));
+        holderUnderTest.setItems(newItems);
+
+        // verify
+        assertEquals(3, holderUnderTest.getCurrentItems().size());
+        assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(0).getStatus());
+        assertEquals("buy hummus", holderUnderTest.getCurrentItems().get(0).getDescription());
+        assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(1).getStatus());
+        assertEquals("buy tomatoes", holderUnderTest.getCurrentItems().get(1).getDescription());
+        assertEquals(TodoItem.Status.DONE, holderUnderTest.getCurrentItems().get(2).getStatus());
+        assertEquals("buy chili", holderUnderTest.getCurrentItems().get(2).getDescription());
+    }
 
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }
