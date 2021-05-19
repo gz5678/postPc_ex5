@@ -1,16 +1,16 @@
 package exercise.android.reemh.todo_items;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kotlin.jvm.internal.markers.KMutableList;
+import static org.junit.Assert.*;
 
-public class TodoItemsHolderImplTest extends TestCase {
-    public void test_when_addingTodoItem_then_callingListShouldHaveThisItem(){
+public class TodoItemsHolderImplTest {
+
+    @Test
+    public void when_addingTodoItem_then_callingListShouldHaveThisItem(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -22,7 +22,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_addingTodoItem_and_deletingIt_then_callingListShouldHaveThisItem(){
+    @Test
+    public void when_addingTodoItem_and_deletingIt_then_callingListShouldHaveThisItem(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -36,7 +37,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(0, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_addingTodoItem_and_markingItDone_then_statusOfItemIsDone(){
+    @Test
+    public void when_addingTodoItem_and_markingItDone_then_statusOfItemIsDone(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -50,7 +52,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(TodoItem.Status.DONE, holderUnderTest.getCurrentItems().get(0).getStatus());
     }
 
-    public void test_when_addingTodoItem_and_markingItDoneThenAgainInProgress_then_statusOfItemIsInProgress(){
+    @Test
+    public void when_addingTodoItem_and_markingItDoneThenAgainInProgress_then_statusOfItemIsInProgress(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -65,7 +68,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(0).getStatus());
     }
 
-    public void test_when_onlyAddingTodoItems_then_listShouldBeSortedByStatusAndTimeCreated(){
+    @Test
+    public void when_onlyAddingTodoItems_then_listShouldBeSortedByStatusAndTimeCreated(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -86,7 +90,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals("do jumping", holderUnderTest.getCurrentItems().get(2).getDescription());
     }
 
-    public void test_when_onlyAddingNewItem_then_newItemShouldBeInProgress(){
+    @Test
+    public void when_onlyAddingNewItem_then_newItemShouldBeInProgress(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -98,7 +103,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(TodoItem.Status.IN_PROGRESS, holderUnderTest.getCurrentItems().get(0).getStatus());
     }
 
-    public void test_when_settingItems_then_listShouldHaveItemsAndSorted(){
+    @Test
+    public void when_settingItems_then_listShouldHaveItemsAndSorted(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -107,7 +113,7 @@ public class TodoItemsHolderImplTest extends TestCase {
         // test
         newItems.add(new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS));
         newItems.add(new TodoItem("buy chili", System.currentTimeMillis(), TodoItem.Status.DONE));
-        newItems.add(new TodoItem("buy hummus", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS));
+        newItems.add(new TodoItem("buy hummus", System.currentTimeMillis()+1, TodoItem.Status.IN_PROGRESS));
         holderUnderTest.setItems(newItems);
 
         // verify
@@ -120,7 +126,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals("buy chili", holderUnderTest.getCurrentItems().get(2).getDescription());
     }
 
-    public void test_when_settingEmptyItemsList_then_listShouldBeEmpty(){
+    @Test
+    public void when_settingEmptyItemsList_then_listShouldBeEmpty(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -133,7 +140,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(0, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_addingSameItemTwice_then_listShouldHaveBothInstances(){
+    @Test
+    public void when_addingSameItemTwice_then_listShouldHaveBothInstances(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -146,7 +154,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(2, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_deletingNonExistingItem_then_doNothing(){
+    @Test
+    public void when_deletingNonExistingItem_then_doNothing(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -160,7 +169,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_deletingNull_then_doNothing(){
+    @Test
+    public void when_deletingNull_then_doNothing(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -173,7 +183,8 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
-    public void test_when_markingNull_then_doNothing(){
+    @Test
+    public void when_markingNull_then_doNothing(){
         // setup
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         assertEquals(0, holderUnderTest.getCurrentItems().size());
@@ -186,8 +197,6 @@ public class TodoItemsHolderImplTest extends TestCase {
         // verify
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
-
-    
 
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }

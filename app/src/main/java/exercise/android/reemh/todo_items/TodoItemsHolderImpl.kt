@@ -9,8 +9,12 @@ class TodoItemsHolderImpl : TodoItemsHolder {
     class SortedTodoItems: ArrayList<TodoItem>() {
         override fun add(element: TodoItem): Boolean {
             val index = this.binarySearch(element)
-            // binarySearch returns invertedInsertion point so need to transform to insertion point
-            super.add(-(index+1), element)
+            // in case we find an element (which happens when both items are identical),
+            // just push it at that spot (since it doesn't matter and we don't want to mess with plus/minus)
+            if (index >= 0) super.add(index, element)
+
+            // binarySearch returns invertedInsertion point when element not found so need to transform to insertion point
+            else super.add(-(index+1), element)
             return true
         }
     }
