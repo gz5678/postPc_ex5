@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items;
 
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -168,5 +169,44 @@ public class MainActivityTest extends TestCase {
 
         assertTrue(checkBox.isChecked());
         assertEquals(description.getText().toString(), itemDone.getDescription());
+    }
+
+    @Test
+    public void when_flipScreen_then_dataInActivityShouldStayTheSame(){
+        // setup
+        String userInput = "Call my grandma today at 18:00";
+
+        // when asking the `mockHolder` to get the current items, return a list with 1 item of type "DONE"
+        ArrayList<TodoItem> itemsReturnedByHolder = new ArrayList<>();
+        Mockito.when(mockHolder.getCurrentItems())
+                .thenReturn(itemsReturnedByHolder);
+        TodoItem itemInProgress = new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS);
+        itemsReturnedByHolder.add(itemInProgress);
+
+        // test - let the activity think it is being shown
+        activityController.create().visible();
+
+        MainActivity activityUnderTest = activityController.get();
+
+        EditText editText = activityUnderTest.findViewById(R.id.editTextInsertTask);
+
+        // set text in text field
+        editText.setText(userInput);
+
+        // Flip screen orientation
+        activityUnderTest.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // verify: make sure that all the data was saved
+        // 1. Make sure text is the same
+        assertEquals(userInput, editText.getText().toString());
+
+        // 2. Make sure that list has same items
+        RecyclerView recyclerView = activityUnderTest.findViewById(R.id.recyclerTodoItemsList);
+        View viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView;
+        CheckBox checkBox = viewInRecycler.findViewById(R.id.progressCheckBox);
+        TextView description = viewInRecycler.findViewById(R.id.description);
+
+        assertFalse(checkBox.isChecked());
+        assertEquals(description.getText().toString(), itemInProgress.getDescription());
     }
 }
