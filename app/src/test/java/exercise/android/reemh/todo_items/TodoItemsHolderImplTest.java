@@ -146,7 +146,19 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(2, holderUnderTest.getCurrentItems().size());
     }
 
+    public void test_when_deletingNonExistingItem_then_doNothing(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
 
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        TodoItem item = new TodoItem("buy hummus", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS);
+        holderUnderTest.deleteItem(item);
+
+        // verify
+        assertEquals(1, holderUnderTest.getCurrentItems().size());
+    }
 
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }
