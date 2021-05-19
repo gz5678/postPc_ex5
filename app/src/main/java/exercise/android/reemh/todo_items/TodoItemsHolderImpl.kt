@@ -35,6 +35,7 @@ class TodoItemsHolderImpl : TodoItemsHolder {
     override fun markItemInProgress(item: TodoItem?) {
         item?.status = TodoItem.Status.IN_PROGRESS
     }
+
     override fun deleteItem(item: TodoItem?) {todoItemArrayList.remove(item)}
 
     override fun sortList() {

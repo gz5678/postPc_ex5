@@ -17,5 +17,21 @@ public class TodoItemsHolderImplTest extends TestCase {
         assertEquals(1, holderUnderTest.getCurrentItems().size());
     }
 
+    public void test_when_addingTodoItem_and_deleting_it_then_callingListShouldHaveThisItem(){
+        // setup
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+
+        // test
+        holderUnderTest.addNewInProgressItem("do shopping");
+        TodoItem item = holderUnderTest.getCurrentItems().get(0);
+        holderUnderTest.deleteItem(item);
+
+        // verify
+        assertEquals(0, holderUnderTest.getCurrentItems().size());
+    }
+
+    
+
     // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }
