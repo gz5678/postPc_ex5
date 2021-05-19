@@ -13,7 +13,6 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     var holder: TodoItemsHolder = TodoItemsHolderImpl()
-    private val adapter = TodoAdapter(holder)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
 
         val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
+        val adapter = TodoAdapter(holder)
         todoRecycler.adapter = adapter
         todoRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         addButton.setOnClickListener { _: View? ->
@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         insertTaskTextField.text = savedInstanceState.getString("todo_in_text_field")
         val todos = savedInstanceState.getSerializable("items") as MutableList<TodoItem>
         holder.setItems(todos)
-        adapter.notifyDataSetChanged()
+        val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
+        val adapter = todoRecycler.adapter
+        adapter?.notifyDataSetChanged()
     }
 }
 
