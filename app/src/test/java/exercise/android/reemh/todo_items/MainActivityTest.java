@@ -1,7 +1,9 @@
 package exercise.android.reemh.todo_items;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -128,9 +130,11 @@ public class MainActivityTest extends TestCase {
 
         // 2. verify that the shown view has a checkbox being not-checked and has a TextView showing the correct description
         View viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView;
-        // TODO: implement.
-        //  use `viewInRecycler.findViewById(...)` to find the checkbox and the description subviews,
-        //  and make sure the checkbox is not checked and the TextView shows the correct description
+        CheckBox checkBox = viewInRecycler.findViewById(R.id.progressCheckBox);
+        TextView description = viewInRecycler.findViewById(R.id.description);
+
+        assertFalse(checkBox.isChecked());
+        assertEquals(description.getText().toString(), itemInProgress.getDescription());
     }
 
 
