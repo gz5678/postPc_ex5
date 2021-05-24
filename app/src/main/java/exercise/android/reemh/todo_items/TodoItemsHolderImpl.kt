@@ -22,7 +22,7 @@ class TodoItemsHolderImpl : TodoItemsHolder {
     private val todoItemArrayList = SortedTodoItems()
 
     override fun getCurrentItems(): MutableList<TodoItem> {
-        return todoItemArrayList
+        return ArrayList(todoItemArrayList)
     }
 
     override fun addNewInProgressItem(description: String) {
