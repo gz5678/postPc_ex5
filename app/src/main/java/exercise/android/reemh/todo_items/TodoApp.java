@@ -4,9 +4,9 @@ import android.app.Application;
 
 public class TodoApp extends Application {
 
-    private TodoItemsHolderImpl dataBase;
+    private TodoItemsHolder dataBase;
 
-    public TodoItemsHolderImpl getDataBase() {
+    public TodoItemsHolder getDataBase() {
         return dataBase;
     }
 
