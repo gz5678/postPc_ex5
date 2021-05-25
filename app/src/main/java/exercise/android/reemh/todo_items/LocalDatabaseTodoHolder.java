@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.Set;
 
+import static exercise.android.reemh.todo_items.TodoItemKt.stringToTodo;
+
 public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
     private final ArrayList<TodoItem> todos = new ArrayList<>();
