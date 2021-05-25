@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
@@ -16,5 +17,16 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
         this.sp = sp;
 
         // Load data from sp to Todos list
+    }
+
+    private void initializeFromSp() {
+        Set<String> keys = sp.getAll().keySet();
+        for (String key: keys) {
+            String todoSavedAsString = sp.getString(key, null);
+            TodoItem item = stringToTodo(todoSavedAsString);
+            if (item != null) {
+                todos.add(item);
+            }
+        }
     }
 }
