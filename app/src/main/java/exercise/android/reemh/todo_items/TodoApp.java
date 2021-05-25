@@ -13,5 +13,12 @@ public class TodoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+    }
+
+    private static TodoApp instance = null;
+
+    public static TodoApp getInstance() {
+        return instance;
     }
 }
