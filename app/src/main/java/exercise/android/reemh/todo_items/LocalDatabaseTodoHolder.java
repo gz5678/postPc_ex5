@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static exercise.android.reemh.todo_items.TodoItemKt.stringToTodo;
 
@@ -60,7 +61,17 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
     @Override
     public void addNewInProgressItem(@NotNull String description) {
+        // Create new item
+        TodoItem item = new TodoItem(description,
+                System.currentTimeMillis(),
+                TodoItem.Status.IN_PROGRESS);
+        // Add item to todo list
+        todos.add(item);
 
+        // Add item to database
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(UUID.randomUUID().toString(), item.serialize());
+        editor.apply();
     }
 
     @Override
