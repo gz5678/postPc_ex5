@@ -9,6 +9,10 @@ data class TodoItem(val description : String,
 {
     enum class Status(val value: Int) {IN_PROGRESS(1), DONE(2)}
 
+    public fun serialize(): String {
+        return "$description#$timestampCreated#${status.value}"
+    }
+
     override fun compareTo(other: TodoItem): Int {
         if (this.status == other.status) {
             return -(this.timestampCreated.compareTo(other.timestampCreated))
