@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +15,25 @@ import static exercise.android.reemh.todo_items.TodoItemKt.stringToTodo;
 
 public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
-    private final ArrayList<TodoItem> todos = new ArrayList<>();
-    private final Context context;
+    public static class SortedTodoItems extends ArrayList<TodoItem> {
+
+        @Override
+        public boolean add(TodoItem todoItem) {
+            int index = Collections.binarySearch(this, todoItem);
+            if (index >= 0) {
+                super.add(index, todoItem);
+            }
+            else {
+                super.add(-(index+1), todoItem);
+            }
+            return true;
+        }
+    }
+
+    private final ArrayList<TodoItem> todos = new SortedTodoItems();
     private final SharedPreferences sp;
 
     public LocalDatabaseTodoHolder(Context context, SharedPreferences sp) {
-        this.context = context;
         this.sp = sp;
 
         // Load data from sp to Todos list
