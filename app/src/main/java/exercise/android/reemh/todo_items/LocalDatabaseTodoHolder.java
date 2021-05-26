@@ -62,31 +62,59 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
     @Override
     public void addNewInProgressItem(@NotNull String description) {
         // Create new item
+        UUID id = UUID.randomUUID();
         TodoItem item = new TodoItem(description,
                 System.currentTimeMillis(),
-                TodoItem.Status.IN_PROGRESS);
+                TodoItem.Status.IN_PROGRESS,
+                id);
         // Add item to todo list
         todos.add(item);
 
         // Add item to database
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(UUID.randomUUID().toString(), item.serialize());
+        editor.putString(id.toString(), item.serialize());
         editor.apply();
     }
 
     @Override
     public void markItemDone(@Nullable TodoItem item) {
+        if (item != null && todos.contains(item) && item.getStatus() != TodoItem.Status.DONE) {
+            TodoItem markedItem = new TodoItem(item.getDescription(),
+                    item.getTimestampCreated(),
+                    TodoItem.Status.DONE,
+                    item.getId());
+            todos.remove(item);
+            todos.add(markedItem);
 
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(markedItem.getId().toString(), markedItem.serialize());
+            editor.apply();
+        }
     }
 
     @Override
     public void markItemInProgress(@Nullable TodoItem item) {
+        if (item != null && todos.contains(item) && item.getStatus() != TodoItem.Status.IN_PROGRESS) {
+            TodoItem markedItem = new TodoItem(item.getDescription(),
+                    item.getTimestampCreated(),
+                    TodoItem.Status.IN_PROGRESS,
+                    item.getId());
+            todos.remove(item);
+            todos.add(markedItem);
 
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(markedItem.getId().toString(), markedItem.serialize());
+            editor.apply();
+        }
     }
 
     @Override
     public void deleteItem(@Nullable TodoItem item) {
-
+        if (item != null && todos.remove(item)) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove(item.getId().toString());
+            editor.apply();
+        }
     }
 
     @Override
