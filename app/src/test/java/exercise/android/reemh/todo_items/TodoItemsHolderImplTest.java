@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -111,9 +112,9 @@ public class TodoItemsHolderImplTest {
         ArrayList<TodoItem> newItems = new ArrayList<>();
 
         // test
-        newItems.add(new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS));
-        newItems.add(new TodoItem("buy chili", System.currentTimeMillis(), TodoItem.Status.DONE));
-        newItems.add(new TodoItem("buy hummus", System.currentTimeMillis()+1, TodoItem.Status.IN_PROGRESS));
+        newItems.add(new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS, UUID.randomUUID()));
+        newItems.add(new TodoItem("buy chili", System.currentTimeMillis(), TodoItem.Status.DONE, UUID.randomUUID()));
+        newItems.add(new TodoItem("buy hummus", System.currentTimeMillis()+1, TodoItem.Status.IN_PROGRESS, UUID.randomUUID()));
         holderUnderTest.setItems(newItems);
 
         // verify
@@ -162,7 +163,7 @@ public class TodoItemsHolderImplTest {
 
         // test
         holderUnderTest.addNewInProgressItem("do shopping");
-        TodoItem item = new TodoItem("buy hummus", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS);
+        TodoItem item = new TodoItem("buy hummus", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS, UUID.randomUUID());
         holderUnderTest.deleteItem(item);
 
         // verify

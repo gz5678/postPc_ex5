@@ -29,7 +29,8 @@ class TodoItemsHolderImpl : TodoItemsHolder {
         todoItemArrayList.add(TodoItem(
                 description = description,
                 timestampCreated = System.currentTimeMillis(),
-                status = TodoItem.Status.IN_PROGRESS))
+                status = TodoItem.Status.IN_PROGRESS,
+                id = UUID.randomUUID()))
     }
 
     override fun markItemDone(item: TodoItem?) {

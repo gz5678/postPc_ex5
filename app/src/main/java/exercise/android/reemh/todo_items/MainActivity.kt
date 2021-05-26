@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
-    private val database: LocalDatabaseTodoHolder = TodoApp.getInstance().dataBase
+    var database: LocalDatabaseTodoHolder = TodoApp.getInstance().dataBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         database.todosLiveDataPublic.observe(this, { updatedTodosList ->
             adapter.notifyDataSetChanged()
         })
-        
+
         addButton.setOnClickListener { _: View? ->
             val taskTest = insertTaskTextField.text.toString()
             // If the task is not empty, add it to the todo list

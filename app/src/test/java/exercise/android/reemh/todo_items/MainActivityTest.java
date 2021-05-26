@@ -20,6 +20,7 @@ import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -28,11 +29,11 @@ import static org.mockito.ArgumentMatchers.eq;
 public class MainActivityTest extends TestCase {
 
     private ActivityController<MainActivity> activityController;
-    private TodoItemsHolder mockHolder;
+    private LocalDatabaseTodoHolder mockHolder;
 
     @Before
     public void setup(){
-        mockHolder = Mockito.mock(TodoItemsHolder.class);
+        mockHolder = Mockito.mock(LocalDatabaseTodoHolder.class);
         // when asking the `mockHolder` to get the current items, return an empty list
         Mockito.when(mockHolder.getCurrentItems())
                 .thenReturn(new ArrayList<>());
@@ -41,7 +42,7 @@ public class MainActivityTest extends TestCase {
 
         // let the activity use our `mockHolder` as the TodoItemsHolder
         MainActivity activityUnderTest = activityController.get();
-        activityUnderTest.setHolder(mockHolder);
+        activityUnderTest.setDatabase(mockHolder);
     }
 
     @Test
@@ -114,7 +115,7 @@ public class MainActivityTest extends TestCase {
         ArrayList<TodoItem> itemsReturnedByHolder = new ArrayList<>();
         Mockito.when(mockHolder.getCurrentItems())
                 .thenReturn(itemsReturnedByHolder);
-        TodoItem itemInProgress = new TodoItem("do homework", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS);
+        TodoItem itemInProgress = new TodoItem("do homework", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS, UUID.randomUUID());
         itemsReturnedByHolder.add(itemInProgress);
 
         // test - let the activity think it is being shown
@@ -147,7 +148,7 @@ public class MainActivityTest extends TestCase {
         ArrayList<TodoItem> itemsReturnedByHolder = new ArrayList<>();
         Mockito.when(mockHolder.getCurrentItems())
                 .thenReturn(itemsReturnedByHolder);
-        TodoItem itemDone = new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.DONE);
+        TodoItem itemDone = new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.DONE, UUID.randomUUID());
         itemsReturnedByHolder.add(itemDone);
 
         // test - let the activity think it is being shown
@@ -180,7 +181,7 @@ public class MainActivityTest extends TestCase {
         ArrayList<TodoItem> itemsReturnedByHolder = new ArrayList<>();
         Mockito.when(mockHolder.getCurrentItems())
                 .thenReturn(itemsReturnedByHolder);
-        TodoItem itemInProgress = new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS);
+        TodoItem itemInProgress = new TodoItem("buy tomatoes", System.currentTimeMillis(), TodoItem.Status.IN_PROGRESS, UUID.randomUUID());
         itemsReturnedByHolder.add(itemInProgress);
 
         // test - let the activity think it is being shown
