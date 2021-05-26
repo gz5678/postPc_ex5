@@ -6,31 +6,36 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
-    var holder: TodoItemsHolder = TodoItemsHolderImpl()
+    private val database: LocalDatabaseTodoHolder = TodoApp.getInstance().dataBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
-
         val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
-        val adapter = TodoAdapter(holder)
+        val adapter = TodoAdapter(database)
         todoRecycler.adapter = adapter
         todoRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        database.todosLiveDataPublic.observe(this, { updatedTodosList ->
+            adapter.notifyDataSetChanged()
+        })
+        
         addButton.setOnClickListener { _: View? ->
             val taskTest = insertTaskTextField.text.toString()
             // If the task is not empty, add it to the todo list
             if (taskTest.isEmpty()) {
                 return@setOnClickListener
             }
-            holder.addNewInProgressItem(taskTest)
-            adapter.notifyDataSetChanged()
+            database.addNewInProgressItem(taskTest)
+            //adapter.notifyDataSetChanged()
             // Delete text in the text field so user can write new task
             insertTaskTextField.text = ""
         }
@@ -40,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
         outState.putString("todo_in_text_field", insertTaskTextField.text.toString())
-        outState.putSerializable("items", holder.getCurrentItems() as Serializable)
+        outState.putSerializable("items", database.getCurrentItems() as Serializable)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
         insertTaskTextField.text = savedInstanceState.getString("todo_in_text_field")
         val todos = savedInstanceState.getSerializable("items") as MutableList<TodoItem>
-        holder.setItems(todos)
+        database.setItems(todos)
         val todoRecycler: RecyclerView = findViewById(R.id.recyclerTodoItemsList)
         val adapter = todoRecycler.adapter
         adapter?.notifyDataSetChanged()
