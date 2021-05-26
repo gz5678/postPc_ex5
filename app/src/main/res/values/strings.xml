@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TodoItems</string>
+    <string name="time_created">Time Created:</string>
+    <string name="last_modified">Last Modified:</string>
+    <string name="statusDone">Done</string>
+    <string name="edit_description">Edit Description:</string>
 </resources>
