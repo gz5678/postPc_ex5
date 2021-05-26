@@ -3,6 +3,9 @@ package exercise.android.reemh.todo_items;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +36,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
     private final ArrayList<TodoItem> todos = new SortedTodoItems();
     private final SharedPreferences sp;
+    private final MutableLiveData<List<TodoItem>> todosLiveDataMutable = new MutableLiveData<>();
+    public final LiveData<List<TodoItem>> todosLiveDataPublic = todosLiveDataMutable;
 
     public LocalDatabaseTodoHolder(SharedPreferences sp) {
         this.sp = sp;
@@ -50,6 +55,7 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
                 todos.add(item);
             }
         }
+        todosLiveDataMutable.setValue(new ArrayList<>(todos));
     }
 
 
@@ -74,6 +80,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(id.toString(), item.serialize());
         editor.apply();
+
+        todosLiveDataMutable.setValue(new ArrayList<>(todos));
     }
 
     @Override
@@ -89,6 +97,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString(markedItem.getId().toString(), markedItem.serialize());
             editor.apply();
+
+            todosLiveDataMutable.setValue(new ArrayList<>(todos));
         }
     }
 
@@ -105,6 +115,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString(markedItem.getId().toString(), markedItem.serialize());
             editor.apply();
+
+            todosLiveDataMutable.setValue(new ArrayList<>(todos));
         }
     }
 
@@ -114,6 +126,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
             SharedPreferences.Editor editor = sp.edit();
             editor.remove(item.getId().toString());
             editor.apply();
+
+            todosLiveDataMutable.setValue(new ArrayList<>(todos));
         }
     }
 
