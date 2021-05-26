@@ -34,7 +34,7 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
     private final ArrayList<TodoItem> todos = new SortedTodoItems();
     private final SharedPreferences sp;
 
-    public LocalDatabaseTodoHolder(Context context, SharedPreferences sp) {
+    public LocalDatabaseTodoHolder(SharedPreferences sp) {
         this.sp = sp;
 
         // Load data from sp to Todos list
@@ -119,6 +119,5 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
     @Override
     public void setItems(@NotNull List<TodoItem> items) {
-
     }
 }

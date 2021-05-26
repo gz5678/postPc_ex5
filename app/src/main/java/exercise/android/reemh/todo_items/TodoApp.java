@@ -14,6 +14,7 @@ public class TodoApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        dataBase = new LocalDatabaseTodoHolder(this.getSharedPreferences("local_db_todos", MODE_PRIVATE));
     }
 
     private static TodoApp instance = null;
