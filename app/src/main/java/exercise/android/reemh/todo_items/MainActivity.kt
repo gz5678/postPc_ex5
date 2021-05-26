@@ -13,9 +13,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
-    var database: LocalDatabaseTodoHolder = TodoApp.getInstance().dataBase
+    lateinit var database: LocalDatabaseTodoHolder
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!this::database.isInitialized) database = TodoApp.getInstance().dataBase
         setContentView(R.layout.activity_main)
         val addButton = findViewById<FloatingActionButton?>(R.id.buttonCreateTodoItem)
         val insertTaskTextField = findViewById<TextView?>(R.id.editTextInsertTask)
