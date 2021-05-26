@@ -12,7 +12,7 @@ data class TodoItem(val description : String,
     enum class Status(val value: Int) {IN_PROGRESS(1), DONE(2)}
 
     public fun serialize(): String {
-        return "$description#$timestampCreated#${status.value}#$id"
+        return "$description#$timestampCreated#$status#$id"
     }
 
     override fun compareTo(other: TodoItem): Int {
