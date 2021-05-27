@@ -24,12 +24,7 @@ public class EditActivity extends AppCompatActivity {
 
         // Find todo according to id from intent
         final UUID idFromTodo = UUID.fromString(getIntent().getSerializableExtra("todo_id").toString());
-        TodoItem todoToEdit = null;
-        for (TodoItem item: database.getCurrentItems()) {
-            if (idFromTodo.equals(item.getId())) {
-                todoToEdit = item;
-            }
-        }
+        TodoItem todoToEdit = database.getTodoById(idFromTodo);
 
         // Get UI fields
         TextView timeCreated = findViewById(R.id.timeCreatedText);
@@ -58,6 +53,7 @@ public class EditActivity extends AppCompatActivity {
                 else {
                     database.markItemInProgress(finalTodoToEdit);
                 }
+
             }
         });
     }

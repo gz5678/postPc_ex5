@@ -69,10 +69,12 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
     public void addNewInProgressItem(@NotNull String description) {
         // Create new item
         UUID id = UUID.randomUUID();
+        Long timestamp = System.currentTimeMillis();
         TodoItem item = new TodoItem(description,
-                System.currentTimeMillis(),
+                timestamp,
                 TodoItem.Status.IN_PROGRESS,
-                id);
+                id,
+                timestamp);
         // Add item to todo list
         todos.add(item);
 
@@ -90,7 +92,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
             TodoItem markedItem = new TodoItem(item.getDescription(),
                     item.getTimestampCreated(),
                     TodoItem.Status.DONE,
-                    item.getId());
+                    item.getId(),
+                    System.currentTimeMillis());
             todos.remove(item);
             todos.add(markedItem);
 
@@ -108,7 +111,8 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
             TodoItem markedItem = new TodoItem(item.getDescription(),
                     item.getTimestampCreated(),
                     TodoItem.Status.IN_PROGRESS,
-                    item.getId());
+                    item.getId(),
+                    System.currentTimeMillis());
             todos.remove(item);
             todos.add(markedItem);
 
@@ -129,6 +133,17 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
 
             todosLiveDataMutable.setValue(new ArrayList<>(todos));
         }
+    }
+
+    public TodoItem getTodoById(UUID id) {
+        TodoItem todoToEdit = null;
+        for (TodoItem item: todos) {
+            if (id.equals(item.getId())) {
+                todoToEdit = item;
+                break;
+            }
+        }
+        return todoToEdit;
     }
 
     @Override
