@@ -1,8 +1,10 @@
 package exercise.android.reemh.todo_items
 
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapter<TodoItemHolder>() {
@@ -37,6 +39,13 @@ class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapt
             _todosHolder.getCurrentItems().removeAt(holder.adapterPosition)
             notifyItemRemoved(holder.adapterPosition)
             return@setOnLongClickListener true
+        }
+
+        // Once clicked, open edit activity
+        holder.itemView.setOnClickListener{ view ->
+            val intentForEdit: Intent = Intent(view.context, EditActivity::class.java)
+            intentForEdit.putExtra("todo", _todosHolder.getCurrentItems()[ holder.adapterPosition ])
+            view.context.startActivity(intentForEdit)
         }
     }
 }
