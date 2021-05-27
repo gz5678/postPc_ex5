@@ -66,7 +66,9 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                String newDescription = editText.getText().toString();
+                database.editItemDescription(database.getTodoById(idFromTodo), newDescription);
+                lastModified.setText(_millisToDateString(database.getTodoById(idFromTodo).getLastModified(), true));
             }
         });
     }
