@@ -1,6 +1,9 @@
 package exercise.android.reemh.todo_items;
 
 import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,5 +29,15 @@ public class EditActivity extends AppCompatActivity {
             }
         }
 
+        // Get UI fields
+        TextView timeCreated = findViewById(R.id.timeCreatedText);
+        TextView lastModified = findViewById(R.id.lastModifiedText);
+        CheckBox statusCheckbox = findViewById(R.id.statusCheckbox);
+        EditText editText = findViewById(R.id.editTodoText);
+
+        // Put data into UI fields
+        timeCreated.setText(String.valueOf(todoToEdit.getTimestampCreated()));
+        lastModified.setText(String.valueOf(todoToEdit.getLastModified()));
+        statusCheckbox.setChecked(todoToEdit.getStatus() == TodoItem.Status.DONE);
     }
 }
