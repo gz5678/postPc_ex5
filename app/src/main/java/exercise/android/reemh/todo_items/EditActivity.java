@@ -41,19 +41,16 @@ public class EditActivity extends AppCompatActivity {
         statusCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                TodoItem finalTodoToEdit = null;
-                for (TodoItem item: database.getCurrentItems()) {
-                    if (idFromTodo.equals(item.getId())) {
-                        finalTodoToEdit = item;
-                    }
-                }
+                TodoItem finalTodoToEdit = database.getTodoById(idFromTodo);
                 if (isChecked) {
                     database.markItemDone(finalTodoToEdit);
                 }
                 else {
                     database.markItemInProgress(finalTodoToEdit);
                 }
-
+                finalTodoToEdit = database.getTodoById(idFromTodo);
+                // Change last modified field in ui
+                lastModified.setText(_millisToDateString(finalTodoToEdit.getLastModified(), true));
             }
         });
     }
@@ -74,7 +71,7 @@ public class EditActivity extends AppCompatActivity {
             if (diffMinutes < 60) {
                 return diffMinutes + " minutes ago";
             }
-            return "Today at " + calendar.get(Calendar.HOUR_OF_DAY);
+            return "Today at " + calendar.getTime().toString().split(" ")[3];
         }
         else {
             calendar.setTimeInMillis(timeInMillis);
