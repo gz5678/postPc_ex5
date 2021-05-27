@@ -38,6 +38,7 @@ public class EditActivity extends AppCompatActivity {
         timeCreated.setText(_millisToDateString(todoToEdit.getTimestampCreated(), false));
         lastModified.setText(_millisToDateString(todoToEdit.getLastModified(), true));
         statusCheckbox.setChecked(todoToEdit.getStatus() == TodoItem.Status.DONE);
+        editText.setText(todoToEdit.getDescription());
 
         // Set listener for checkbox
         statusCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
