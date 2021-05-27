@@ -2,6 +2,7 @@ package exercise.android.reemh.todo_items;
 
 import android.os.Bundle;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class EditActivity extends AppCompatActivity {
         if (database == null) database = TodoApp.getInstance().getDataBase();
 
         // Find todo according to id from intent
-        UUID idFromTodo = UUID.fromString(getIntent().getSerializableExtra("todo_id").toString());
+        final UUID idFromTodo = UUID.fromString(getIntent().getSerializableExtra("todo_id").toString());
         TodoItem todoToEdit = null;
         for (TodoItem item: database.getCurrentItems()) {
             if (idFromTodo.equals(item.getId())) {
@@ -40,6 +41,25 @@ public class EditActivity extends AppCompatActivity {
         timeCreated.setText(_millisToDateString(todoToEdit.getTimestampCreated(), false));
         lastModified.setText(_millisToDateString(todoToEdit.getLastModified(), true));
         statusCheckbox.setChecked(todoToEdit.getStatus() == TodoItem.Status.DONE);
+
+        // Set listener for checkbox
+        statusCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                TodoItem finalTodoToEdit = null;
+                for (TodoItem item: database.getCurrentItems()) {
+                    if (idFromTodo.equals(item.getId())) {
+                        finalTodoToEdit = item;
+                    }
+                }
+                if (isChecked) {
+                    database.markItemDone(finalTodoToEdit);
+                }
+                else {
+                    database.markItemInProgress(finalTodoToEdit);
+                }
+            }
+        });
     }
 
     private String _millisToDateString(long timeInMillis, boolean isDifferenceFromNow) {
