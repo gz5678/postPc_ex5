@@ -146,6 +146,21 @@ public class LocalDatabaseTodoHolder implements TodoItemsHolder {
         return todoToEdit;
     }
 
+    public void editItemDescription(@Nullable TodoItem item, String newDescription) {
+        this.deleteItem(item);
+        TodoItem newDescriptionItem = new TodoItem(newDescription,
+                item.getTimestampCreated(),
+                item.getStatus(),
+                item.getId(),
+                System.currentTimeMillis());
+        todos.add(newDescriptionItem);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(newDescriptionItem.getId().toString(), newDescriptionItem.serialize());
+        editor.apply();
+
+        todosLiveDataMutable.setValue(new ArrayList<>(todos));
+    }
+
     @Override
     public void setItems(@NotNull List<TodoItem> items) {
     }

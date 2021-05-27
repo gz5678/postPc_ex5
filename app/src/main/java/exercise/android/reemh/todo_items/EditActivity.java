@@ -1,6 +1,8 @@
 package exercise.android.reemh.todo_items;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -51,6 +53,20 @@ public class EditActivity extends AppCompatActivity {
                 finalTodoToEdit = database.getTodoById(idFromTodo);
                 // Change last modified field in ui
                 lastModified.setText(_millisToDateString(finalTodoToEdit.getLastModified(), true));
+            }
+        });
+
+        // Set listener for edit text
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
