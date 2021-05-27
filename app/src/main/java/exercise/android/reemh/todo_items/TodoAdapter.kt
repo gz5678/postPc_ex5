@@ -44,7 +44,7 @@ class TodoAdapter(private val _todosHolder: TodoItemsHolder): RecyclerView.Adapt
         // Once clicked, open edit activity
         holder.itemView.setOnClickListener{ view ->
             val intentForEdit: Intent = Intent(view.context, EditActivity::class.java)
-            intentForEdit.putExtra("todo_id", _todosHolder.getCurrentItems()[ holder.adapterPosition ].id)
+            intentForEdit.putExtra("todo_id", _todosHolder.getCurrentItems()[ holder.adapterPosition ].id.toString())
             view.context.startActivity(intentForEdit)
         }
     }

@@ -9,6 +9,7 @@ data class TodoItem(val description : String,
                     var status : Status,
                     val id: UUID) : Serializable, Comparable<TodoItem>
 {
+    val lastModified = timestampCreated
     enum class Status(val value: Int) {IN_PROGRESS(1), DONE(2)}
 
     public fun serialize(): String {
